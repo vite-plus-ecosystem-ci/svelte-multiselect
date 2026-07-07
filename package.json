@@ -67,7 +67,7 @@
     "@sveltejs/package": "2.5.8",
     "@sveltejs/vite-plugin-svelte": "^7.1.2",
     "@types/node": "^26.0.1",
-    "@vitest/coverage-v8": "^4.1.9",
+    "@vitest/coverage-v8": "catalog:",
     "@wooorm/starry-night": "^3.10.0",
     "acorn": "^8.17.0",
     "happy-dom": "^20.10.6",
@@ -75,9 +75,9 @@
     "svelte": "^5.56.4",
     "svelte-toc": "^0.7.0",
     "typescript": "6.0.3",
-    "vite": "^8.1.0",
-    "vite-plus": "0.2.1",
-    "vitest": "^4.1.9"
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "@wooorm/starry-night": "^3.0.0",
@@ -95,5 +95,12 @@
   "overrides": {
     "esrap": "2.2.11",
     "svelte": "$svelte"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.10.0",
+      "onFail": "download"
+    }
   }
 }
