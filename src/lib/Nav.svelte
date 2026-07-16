@@ -107,19 +107,23 @@
     focused_item_index = -1
   }
 
+  // Query the submenu links / toggle button of the dropdown for a given route href
+  const dropdown_links = (href: string) =>
+    document.querySelectorAll<HTMLElement>(
+      `.dropdown[data-href="${CSS.escape(href)}"] [data-submenu] a`,
+    )
+  const dropdown_toggle = (href: string) =>
+    document.querySelector<HTMLButtonElement>(
+      `.dropdown[data-href="${CSS.escape(href)}"] [data-dropdown-toggle]`,
+    )
+
   function toggle_dropdown(href: string, focus_first = false) {
     const is_opening = pinned_dropdown !== href
     pinned_dropdown = is_opening ? href : null
     hovered_dropdown = is_opening ? href : null
     focused_item_index = is_opening && focus_first ? 0 : -1
     if (is_opening && focus_first) {
-      setTimeout(() => {
-        document
-          .querySelector<HTMLElement>(
-            `.dropdown[data-href="${CSS.escape(href)}"] [data-submenu] a`,
-          )
-          ?.focus()
-      }, 0)
+      setTimeout(() => dropdown_links(href)[0]?.focus(), 0)
     }
   }
 
@@ -165,11 +169,7 @@
         0,
         Math.min(sub_routes.length - 1, focused_item_index + direction),
       )
-      document
-        .querySelectorAll<HTMLElement>(
-          `.dropdown[data-href="${CSS.escape(href)}"] [data-submenu] a`,
-        )
-        ?.[focused_item_index]?.focus()
+      dropdown_links(href)[focused_item_index]?.focus()
     }
 
     // Open dropdown with ArrowDown when closed
@@ -183,11 +183,7 @@
     if (event.key === `Escape`) {
       event.preventDefault()
       close_menus()
-      document
-        .querySelector<HTMLButtonElement>(
-          `.dropdown[data-href="${CSS.escape(href)}"] [data-dropdown-toggle]`,
-        )
-        ?.focus()
+      dropdown_toggle(href)?.focus()
     }
   }
 
@@ -535,14 +531,14 @@
     cursor: not-allowed;
     pointer-events: none;
   }
-  /* Right-aligned items - only first one gets margin-left: auto */
+  /* Right-aligned items - only first one gets margin-inline-start: auto */
   .menu > :is(.align-right, .dropdown.align-right) {
-    margin-left: auto;
+    margin-inline-start: auto;
   }
   .menu
     > :is(.align-right, .dropdown.align-right)
     + :is(.align-right, .dropdown.align-right) {
-    margin-left: 0;
+    margin-inline-start: 0;
   }
   /* Separator */
   .menu > .separator {
@@ -582,7 +578,8 @@
     padding: var(--nav-item-padding, 1pt 4pt);
     text-decoration: none;
     color: inherit;
-    border-radius: var(--nav-border-radius) 0 0 var(--nav-border-radius);
+    border-start-start-radius: var(--nav-border-radius);
+    border-end-start-radius: var(--nav-border-radius);
   }
   .dropdown > div:first-child > a[aria-current='page'] {
     color: var(--nav-link-active-color);
@@ -596,7 +593,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 0 var(--nav-border-radius) var(--nav-border-radius) 0;
+    border-start-end-radius: var(--nav-border-radius);
+    border-end-end-radius: var(--nav-border-radius);
     outline-offset: -1px;
     opacity: 0.6;
     transition:
@@ -618,8 +616,8 @@
   .dropdown > div:last-child {
     position: absolute;
     top: 100%;
-    left: var(--nav-dropdown-left, 0);
-    right: var(--nav-dropdown-right, auto);
+    inset-inline-start: var(--nav-dropdown-left, 0);
+    inset-inline-end: var(--nav-dropdown-right, auto);
     margin: var(--nav-dropdown-margin, 2pt) 0 0 0;
     min-width: var(--nav-dropdown-min-width, 100%); /* at least as wide as parent */
     max-width: var(--nav-dropdown-max-width, none);
@@ -655,7 +653,7 @@
     display: none;
     position: fixed;
     top: 1rem;
-    left: 1rem;
+    inset-inline-start: 1rem;
     flex-direction: column;
     justify-content: space-around;
     width: 1.4rem;
@@ -690,7 +688,7 @@
   nav.mobile .menu {
     position: fixed;
     top: 3rem;
-    left: 1rem;
+    inset-inline-start: 1rem;
     background-color: var(--nav-surface-bg);
     border: 1px solid var(--nav-surface-border);
     box-shadow: var(--nav-surface-shadow);
@@ -751,16 +749,17 @@
     background-color: transparent;
   }
   nav.mobile .dropdown > div:last-child a {
-    padding: 4pt 8pt 4pt 6pt;
-    margin-left: 8pt;
-    border-left: 2px solid transparent;
+    padding-block: 4pt;
+    padding-inline: 6pt 8pt;
+    margin-inline-start: 8pt;
+    border-inline-start: 2px solid transparent;
     font-size: 0.9em;
   }
   nav.mobile .dropdown > div:last-child a:is(:hover, [aria-current='page']) {
-    border-left-color: var(--nav-link-active-color, currentColor);
+    border-inline-start-color: var(--nav-link-active-color, currentColor);
   }
   /* Mobile right-aligned items stack normally */
   nav.mobile .menu > :is(.align-right, .dropdown.align-right) {
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 </style>

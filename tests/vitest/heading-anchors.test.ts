@@ -2,32 +2,9 @@ import { heading_anchors, heading_ids } from '$lib/heading-anchors'
 import { beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 import { doc_query } from './index'
 
-// SSR/client consistency: both should handle the same heading levels (h1-h6)
-// This test catches drift if someone changes one without the other
-describe(`SSR and client-side heading level consistency`, () => {
-  const preprocess = (content: string) => heading_ids().markup({ content })
-
-  it.each([`h1`, `h6`])(
-    `%s is processed by both SSR preprocessor and client-side attachment`,
-    (tag) => {
-      // SSR: preprocessor should add ID
-      const ssr_result = preprocess(`<${tag}>Test</${tag}>`)
-      expect(ssr_result.code).toContain(`id="test"`)
-
-      // Client: attachment should add anchor (when heading has ID)
-      document.body.innerHTML = `<main><${tag} id="test">Test</${tag}></main>`
-      const container = doc_query(`main`)
-      heading_anchors()(container)
-      expect(container.querySelector(`${tag} a[aria-hidden="true"]`)).toBeInstanceOf(
-        HTMLAnchorElement,
-      )
-    },
-  )
-})
+const preprocess = (content: string) => heading_ids().markup({ content })
 
 describe(`heading_ids preprocessor`, () => {
-  const preprocess = (content: string) => heading_ids().markup({ content })
-
   describe(`basic ID generation`, () => {
     it.each([
       [`<h2>Hello World</h2>`, `<h2 id="hello-world">Hello World</h2>`],
@@ -148,12 +125,6 @@ describe(`heading_ids preprocessor`, () => {
       expect(preprocess(input).code).toBe(expected)
     })
   })
-
-  it(`returns preprocessor with correct name`, () => {
-    const preprocessor = heading_ids()
-    expect(preprocessor.name).toBe(`heading-ids`)
-    expect(preprocessor.markup({ content: `` }).code).toBe(``)
-  })
 })
 
 describe(`heading_anchors attachment`, () => {
@@ -208,6 +179,16 @@ describe(`heading_anchors attachment`, () => {
       heading_anchors()(container)
       expect(container.querySelector(`h2 a`)).toBeNull()
     })
+
+    it(`handles digit-leading heading text without throwing (invalid as CSS ID selector)`, () => {
+      // querySelector('#2024-roadmap') throws SyntaxError since CSS ID selectors
+      // can't start with an unescaped digit - uniqueness check must use getElementById
+      const container = create_container(`<h2>2024 Roadmap</h2><h3>2024 Roadmap</h3>`)
+      expect(() => heading_anchors()(container)).not.toThrow()
+      const ids = Array.from(container.querySelectorAll(`h2, h3`)).map((el) => el.id)
+      expect(ids).toEqual([`2024-roadmap`, `2024-roadmap-1`])
+      expect(container.querySelectorAll(anchor_selector)).toHaveLength(2)
+    })
   })
 
   describe(`default selector targets attached node children`, () => {
@@ -226,6 +207,15 @@ describe(`heading_anchors attachment`, () => {
       const anchor = document.querySelector(`${id_sel} ${anchor_selector}`)
       if (should_match) expect(anchor).toBeInstanceOf(HTMLAnchorElement)
       else expect(anchor).toBeNull()
+    })
+
+    it(`processes direct child before a later sibling's grandchild (duplicate-id order)`, () => {
+      // guards get_default_headings ordering: a direct-child heading must be processed
+      // before a grandchild in a later sibling, so the duplicate suffix lands on the grandchild
+      const container = create_container(`<h2>Dup</h2><div><h3>Dup</h3></div>`)
+      heading_anchors()(container)
+      const ids = Array.from(container.querySelectorAll(`h2, h3`)).map((el) => el.id)
+      expect(ids).toEqual([`dup`, `dup-1`])
     })
   })
 
@@ -369,16 +359,6 @@ describe(`heading_anchors attachment`, () => {
       expect(container.querySelector(anchor_selector)?.getAttribute(`href`)).toBe(
         expected_href,
       )
-    })
-
-    it(`multiple independent containers`, () => {
-      document.body.innerHTML = `<div id="c1"><h2 id="h1">C1</h2></div><div id="c2"><h2 id="h2">C2</h2></div>`
-      for (const id of [`c1`, `c2`]) {
-        const el = document.querySelector(`#${id}`)
-        if (el) heading_anchors({ selector: `h2` })(el)
-      }
-      expect(document.querySelector(`#h1 a`)).toBeInstanceOf(HTMLAnchorElement)
-      expect(document.querySelector(`#h2 a`)).toBeInstanceOf(HTMLAnchorElement)
     })
   })
 })

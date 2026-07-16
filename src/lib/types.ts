@@ -4,9 +4,9 @@ import type { HTMLAttributes, HTMLInputAttributes } from 'svelte/elements'
 
 export type Option = string | number | ObjectOption
 
-// single CSS string or an object with keys 'option' and 'selected', each a string,
+// single CSS string or an object with optional 'option' and 'selected' keys,
 // which only apply to the dropdown list and list of selected options, respectively
-export type OptionStyle = string | { option: string; selected: string }
+export type OptionStyle = string | { option?: string; selected?: string }
 
 export type ObjectOption = {
   label: string | number // user-displayed text
@@ -30,7 +30,9 @@ export type PlaceholderConfig = {
 // custom events created by MultiSelect
 export interface MultiSelectEvents<T extends Option = Option> {
   onadd?: (data: { option: T; selected: T[] }) => unknown
-  oncreate?: (data: { option: T }) => false | T | undefined // return false to reject, return T to transform, undefined to accept as-is
+  oncreate?: (data: {
+    option: T
+  }) => false | T | undefined | Promise<false | T | undefined> // return false to reject, return T to transform, undefined to accept as-is (sync or async)
   onremove?: (data: { option: T; selected: T[] }) => unknown
   onremoveAll?: (data: { options: T[] }) => unknown
   onselectAll?: (data: { options: T[] }) => unknown // fires when select all is triggered
@@ -138,7 +140,14 @@ export interface MultiSelectSnippets<T extends Option = Option> {
 
 export interface PortalParams {
   target_node?: HTMLElement | null
+  // portal the dropdown to document.body; honored at runtime, so toggling
+  // portals/un-portals the open dropdown in place
   active?: boolean
+  // `auto` (default): below the input, flips above when the dropdown would overflow
+  //   the viewport bottom and there's more space above
+  // `bottom`: always below the input
+  // `top`: always above the input
+  placement?: `auto` | `bottom` | `top`
 }
 
 type InputEventProp = Extract<keyof HTMLInputAttributes, `on${string}`>
@@ -206,9 +215,20 @@ export interface MultiSelectProps<T extends Option = Option>
   loading?: boolean
   matchingOptions?: T[]
   maxOptions?: number | undefined
+  // Virtualized dropdown rendering for large option lists: only rows near the scroll
+  // viewport are rendered as DOM nodes. Pass true for defaults or { itemHeight, overscan }
+  // to tune row height (px, default 30, applies to group headers too) and extra rows
+  // rendered above/below the visible window (default 10). Grouped options are supported
+  // except in combination with stickyGroupHeaders, which falls back to full rendering
+  // (with a console.warn).
+  virtualList?: boolean | { itemHeight?: number; overscan?: number }
   maxSelect?: number | null // null means there is no upper limit for selected.length
   maxSelectMsg?: ((current: number, max: number) => string) | null
   maxSelectMsgClass?: string
+  // Max selected chips rendered before the rest collapse into a "+N more" toggle
+  // chip (click to expand/collapse). null (default) renders all chips. Ignored in
+  // selectedDisplay="input" mode. Keyboard chip navigation auto-expands.
+  maxVisibleChips?: number | null
   name?: string | null
   noMatchingOptionsMsg?: string
   open?: boolean

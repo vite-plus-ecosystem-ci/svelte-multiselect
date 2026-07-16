@@ -17,12 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v6
+      - uses: voidzero-dev/setup-vp@v1
         with:
           node-version: 24
-
-      - run: npm install
-      - run: npx vp build
+          cache: true
+          run-install: true
+      - run: vp build
 
       - uses: actions/upload-pages-artifact@v4
         with:
