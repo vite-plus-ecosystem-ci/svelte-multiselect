@@ -13,11 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v6
+      - uses: voidzero-dev/setup-vp@v1
         with:
           node-version: 24
-
-      - run: npm install
+          cache: true
+          run-install: true
 
       - name: Unit tests with coverage
         run: npm run test:coverage
@@ -30,11 +30,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v6
+      - uses: voidzero-dev/setup-vp@v1
         with:
           node-version: 24
-
-      - run: npm install
+          cache: true
+          run-install: true
 
       - name: Install Playwright
         run: npx playwright install chromium
