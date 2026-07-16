@@ -24,4 +24,4 @@ jobs:
       - name: Svelte type check
         run: |
           vp exec svelte-kit sync
-          vp exec svelte-check-rs --threshold error
+          vpx svelte-check-rs --threshold error
