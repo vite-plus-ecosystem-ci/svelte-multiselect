@@ -22,7 +22,7 @@ jobs:
           node-version: 24
           cache: true
           run-install: true
-      - run: npx vp build
+      - run: vp build
 
       - uses: actions/upload-pages-artifact@v4
         with:

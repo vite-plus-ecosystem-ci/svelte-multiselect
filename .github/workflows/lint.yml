@@ -19,7 +19,9 @@ jobs:
           run-install: true
 
       - name: Lint, format, and type check
-        run: npx vp check
+        run: vp check
 
       - name: Svelte type check
-        run: npx svelte-kit sync && npx svelte-check-rs --threshold error
+        run: |
+          vp exec svelte-kit sync
+          vp exec svelte-check-rs --threshold error
