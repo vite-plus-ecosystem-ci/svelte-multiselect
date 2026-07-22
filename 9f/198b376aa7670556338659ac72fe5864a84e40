@@ -1,0 +1,33 @@
+.npmrc
+  s_5049d72a2fb6ba::t_eb4062ed563ed7 1-2
+package.json
+  s_5049d72a2fb6ba::t_e0c84101f3e0fb 70,77-79,96-102
+pnpm-lock.yaml
+  s_b97fe1ab1e5874::t_b52b6f0c433fd5 1-2574
+pnpm-workspace.yaml
+  s_b97fe1ab1e5874::t_d382fbfb438fe0 1-75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "9f198b376aa7670556338659ac72fe5864a84e40",
+  "prompts": {},
+  "sessions": {
+    "s_5049d72a2fb6ba": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_075d29066ffehEn1pK41f060pe",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "wan9chi <dk4rest@gmail.com>"
+    },
+    "s_b97fe1ab1e5874": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_075d290f1ffe502H7K9poEoQXv",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "wan9chi <dk4rest@gmail.com>"
+    }
+  }
+}
