@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/janosh/svelte-multiselect/main/static/favicon.svg" alt="Svelte MultiSelect" height="60" width="60">
+  <img src="https://raw.githubusercontent.com/janosh/svelte-multiselect/main/src/site/favicon.svg" alt="Svelte MultiSelect" height="60" width="60">
   <br class="hide-in-docs"> Svelte MultiSelect
 </h1>
 
@@ -337,10 +337,10 @@ These are the core props you'll use in most cases:
    Whether/how to sort selected options. `true` uses default sort, function enables custom sorting.
 
 1. ```ts
-   portal: { target_node?: HTMLElement; active?: boolean } = {}
+   portal: { target_node?: HTMLElement; active?: boolean; placement?: 'auto' | 'bottom' | 'top' } = {}
    ```
 
-   Configuration for portal rendering. When `active: true`, the dropdown is rendered at document.body level with fixed positioning. Useful for avoiding z-index and overflow issues.
+   Configuration for portal rendering. When `active: true`, the dropdown is rendered at document.body level with fixed positioning. Useful for avoiding z-index and overflow issues. `active` is honored at runtime, so toggling it portals/un-portals in place. `placement` controls which side of the input the dropdown opens on: `'auto'` (default) opens below and flips above when the dropdown would overflow the viewport bottom with more space available above, `'bottom'`/`'top'` force a side.
 
 ### Grouping Props
 
@@ -496,6 +496,18 @@ See the [grouping demo](https://janosh.github.io/svelte-multiselect/grouping) fo
    ```
 
    Limit number of options shown in dropdown. `undefined` = no limit.
+
+1. ```ts
+   maxVisibleChips: number | null = null
+   ```
+
+   Max number of selected chips to render before collapsing the rest into a `+N more` toggle chip (click to expand/collapse). `null` renders all chips. Keyboard chip navigation auto-expands so hidden chips can't be highlighted invisibly. Ignored in `selectedDisplay="input"` mode.
+
+1. ```ts
+   virtualList: boolean | { itemHeight?: number; overscan?: number } = false
+   ```
+
+   Virtualized dropdown rendering for large option lists: only rows near the scroll viewport are rendered as DOM nodes. Pass `true` for defaults or an object to tune `itemHeight` (px per row, default 30, also applies to group headers) and `overscan` (extra rows rendered above/below the visible window, default 10). Grouped options are supported except in combination with `stickyGroupHeaders`, which falls back to full rendering with a console warning.
 
 1. ```ts
    minSelect: number | null = null
@@ -1057,7 +1069,7 @@ Minimal example that changes the background color of the options dropdown:
   - `border-radius: var(--sms-border-radius, 3pt)`
   - `padding: var(--sms-padding, 0 3pt)`
   - `background: var(--sms-bg, light-dark(white, #222226))`
-  - `color: var(--sms-text-color)`
+  - `color: var(--sms-text-color, light-dark(#222, #eee))`: Text color. Defaults to a theme-aware color paired with `--sms-bg` so the component stays readable on dark pages that never declare `color-scheme` (where `light-dark()` falls back to light). Set `--sms-text-color: inherit` to blend with the surrounding page instead.
   - `min-height: var(--sms-min-height, 22pt)`
   - `width: var(--sms-width)`
   - `max-width: var(--sms-max-width)`
@@ -1075,12 +1087,13 @@ Minimal example that changes the background color of the options dropdown:
 - `div.multiselect > ul.selected > li`
   - `background: var(--sms-selected-bg, light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.15)))`: Background of selected options.
   - `padding: var(--sms-selected-li-padding, 0 2pt 0 5pt)`: Padding of selected options.
-  - `color: var(--sms-selected-text-color, var(--sms-text-color))`: Text color for selected options.
+  - `color: var(--sms-selected-text-color, var(--sms-text-color, light-dark(#222, #eee)))`: Text color for selected options.
 - `ul.selected > li button:hover, button.remove-all:hover, button:focus`
   - `color: var(--sms-remove-btn-hover-color, inherit)`: Color of the remove-icon buttons for removing all or individual selected options when in `:focus` or `:hover` state.
   - `background: var(--sms-remove-btn-hover-bg, light-dark(rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.2)))`: Background for hovered remove buttons.
 - `div.multiselect > ul.options`
-  - `background: var(--sms-options-bg, light-dark(#fafafa, #222226))`: Background of dropdown list.
+  - `background: var(--sms-options-bg, light-dark(#fcfcfc, #222226))`: Background of dropdown list.
+  - `color: var(--sms-text-color, light-dark(#222, #eee))`: Text color of dropdown options. Paired with `--sms-options-bg` since the dropdown is portalled to `document.body` and no longer inherits the component's text color.
   - `max-height: var(--sms-options-max-height, 50vh)`: Maximum height of options dropdown.
   - `overscroll-behavior: var(--sms-options-overscroll, none)`: Whether scroll events bubble to parent elements when reaching the top/bottom of the options dropdown. See [MDN](https://developer.mozilla.org/docs/Web/CSS/overscroll-behavior).
   - `z-index: var(--sms-options-z-index, 3)`: Z-index for the dropdown options list.

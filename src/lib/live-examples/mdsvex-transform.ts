@@ -4,9 +4,6 @@ import path from 'node:path'
 import { hast_to_html } from './hast.ts'
 import { starry_night } from './highlighter.ts'
 
-// Base64 encode to prevent preprocessors from modifying the content
-const to_base64 = (src: string): string => Buffer.from(src, `utf-8`).toString(`base64`)
-
 // Escape backticks and template literal syntax for embedding in template literals
 const encode_escapes = (src: string) =>
   src.replaceAll(`\``, `\\\``).replaceAll(`\${`, `\\$\{`)
@@ -87,23 +84,28 @@ function remark(options: RemarkOptions = {}): RemarkTransformer {
   const { defaults = {} } = options
 
   return function transformer(tree: RemarkTree, file: RemarkFile): void {
-    const examples: { csr?: boolean; wrapper_alias: string }[] = []
-    // Track wrapper imports to avoid duplicates and generate unique aliases
-    const wrapper_aliases = new Map<string, string>() // wrapper key -> alias name
+    // csr flag per live example (index = component index); drives the import loop below
+    const example_csr: (boolean | undefined)[] = []
+    // Deduped wrapper imports: JSON key identifies the wrapper (string path or
+    // [module, export] tuple), value holds the generated alias + import statement
+    const wrapper_imports = new Map<string, { alias: string; statement: string }>()
 
     const filename = path.relative(file.cwd, file.filename)
 
     // Helper to get or create a wrapper alias
     function get_wrapper_alias(wrapper: string | [string, string]): string {
-      // Use '::' as delimiter to avoid misparsing paths with colons (Windows, URLs)
-      const wrapper_key =
-        typeof wrapper === `string` ? wrapper : `${wrapper[0]}::${wrapper[1]}`
-      let alias = wrapper_aliases.get(wrapper_key)
-      if (!alias) {
-        alias = `Example_${wrapper_aliases.size}`
-        wrapper_aliases.set(wrapper_key, alias)
+      const key = JSON.stringify(wrapper)
+      let entry = wrapper_imports.get(key)
+      if (!entry) {
+        const alias = `Example_${wrapper_imports.size}`
+        const statement =
+          typeof wrapper === `string`
+            ? `import ${alias} from "${wrapper}";\n`
+            : `import { ${wrapper[1]} as ${alias} } from "${wrapper[0]}";\n`
+        entry = { alias, statement }
+        wrapper_imports.set(key, entry)
       }
-      return alias
+      return entry.alias
     }
 
     visit(tree, `code`, (node) => {
@@ -115,25 +117,24 @@ function remark(options: RemarkOptions = {}): RemarkTransformer {
       }
 
       const { csr, example, Wrapper } = meta
+      const scope = node.lang ? starry_night.flagToScope(node.lang) : undefined
 
       // find code blocks with `example` meta in supported languages
-      if (example && node.lang && starry_night.flagToScope(node.lang)) {
+      if (example && node.lang && scope) {
         const is_live = LIVE_LANGUAGES.has(node.lang)
         const wrapper_alias = is_live ? get_wrapper_alias(Wrapper ?? DEFAULT_WRAPPER) : ``
 
         const value = create_example_component(
           node.value ?? ``,
           meta,
-          is_live ? examples.length : -1, // -1 for code-only (no component import needed)
+          is_live ? example_csr.length : -1, // -1 for code-only (no component import needed)
           node.lang,
-          is_live,
+          scope,
           wrapper_alias,
         )
 
         // Only track live examples for component imports
-        if (is_live) {
-          examples.push({ csr, wrapper_alias })
-        }
+        if (is_live) example_csr.push(csr)
 
         node.type = `paragraph`
         node.children = [{ type: `text`, value }]
@@ -143,26 +144,11 @@ function remark(options: RemarkOptions = {}): RemarkTransformer {
       }
     })
 
-    // add imports for each generated example
+    // add wrapper + example component imports for each generated example
     let scripts = ``
-    // Add wrapper imports
-    // Use '::' as the tuple delimiter to avoid misparsing Windows paths (C:\path)
-    // or URLs (https://example.com) that contain single colons
-    for (const [wrapper_key, alias] of wrapper_aliases) {
-      const double_colon_idx = wrapper_key.indexOf(`::`)
-      if (double_colon_idx === -1) {
-        // Simple string path (default import)
-        scripts += `import ${alias} from "${wrapper_key}";\n`
-      } else {
-        // Tuple [module, export] using '::' delimiter
-        const module_path = wrapper_key.slice(0, double_colon_idx)
-        const export_name = wrapper_key.slice(double_colon_idx + 2)
-        scripts += `import { ${export_name} as ${alias} } from "${module_path}";\n`
-      }
-    }
-    // Add example component imports
-    for (const [idx, ex] of examples.entries()) {
-      if (!ex.csr) {
+    for (const { statement } of wrapper_imports.values()) scripts += statement
+    for (const [idx, csr] of example_csr.entries()) {
+      if (!csr) {
         scripts += `import ${EXAMPLE_COMPONENT_PREFIX}${idx} from "${EXAMPLE_MODULE_PREFIX}${idx}.svelte";\n`
       }
     }
@@ -218,20 +204,18 @@ function format_code(code: string, meta: RemarkMeta): string {
 function create_example_component(
   value: string,
   meta: RemarkMeta,
-  index: number,
+  index: number, // -1 for code-only examples (ts, js, css, ...) without a live component
   lang: string,
-  is_live: boolean,
+  scope: string,
   wrapper_alias: string,
 ): string {
   const code = format_code(value, meta)
-  const scope = starry_night.flagToScope(lang)
-  if (!scope) throw new Error(`Unsupported language: ${lang}`)
   const tree = starry_night.highlight(code, scope)
   // Convert newlines to &#10; to prevent bundlers from stripping whitespace
   const highlighted = hast_to_html(tree).replaceAll(`\n`, `&#10;`)
 
   // Code-only examples (ts, js, css, etc.) - just render highlighted code block
-  if (!is_live) {
+  if (index === -1) {
     // Close and reopen <p> to avoid block-in-inline HTML nesting issues
     return `</p><pre class="highlight highlight-${lang}" style="position:relative"><span class="lang-label" style="${LABEL_STYLE}">${lang}</span><code>{@html ${JSON.stringify(
       highlighted,
@@ -243,7 +227,8 @@ function create_example_component(
   // src={...} expression — escaping backticks/`${` on top of it would double-escape
   // and inject literal backslashes into the runtime src prop.
   const component = `${EXAMPLE_COMPONENT_PREFIX}${index}`
-  const base64_src = to_base64(value)
+  // base64-encode to prevent preprocessors from modifying the content
+  const base64_src = Buffer.from(value, `utf-8`).toString(`base64`)
   const escaped_src = JSON.stringify(code)
   const escaped_meta = encode_escapes(JSON.stringify({ ...meta, lang }))
 
