@@ -170,7 +170,7 @@
     "@sveltejs/vite-plugin-svelte": "^7.3.0",
     "@types/node": "^26.2.0",
     "@typescript/native-preview": "7.0.0-dev.20260707.2",
-    "@vitest/coverage-v8": "4.1.10",
+    "@vitest/coverage-v8": "catalog:",
     "@wooorm/starry-night": "^3.10.0",
     "happy-dom": "^20.11.2",
     "katex": "^0.18.4",
@@ -178,8 +178,9 @@
     "pagefind": "^1.5.2",
     "svelte": "^5.56.8",
     "typescript": "^6.0.3",
-    "vite": "^8.2.1",
-    "vite-plus": "0.2.9"
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "@wooorm/starry-night": "^3.0.0",
@@ -200,5 +201,12 @@
   },
   "overrides": {
     "svelte": "$svelte"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.22.0",
+      "onFail": "download"
+    }
   }
 }
