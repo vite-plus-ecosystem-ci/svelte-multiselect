@@ -246,7 +246,7 @@
     "@sveltejs/vite-plugin-svelte": "^7.3.0",
     "@types/node": "^26.4.1",
     "@typescript/native-preview": "7.0.0-dev.20260707.2",
-    "@vitest/coverage-v8": "catalog:",
+    "@vitest/coverage-v8": "4.1.11",
     "@wooorm/starry-night": "^3.11.0",
     "happy-dom": "20.14.0",
     "katex": "^0.18.7",
@@ -254,9 +254,9 @@
     "svelte": "^5.57.0",
     "svelte-check": "^4.7.6",
     "typescript": "^6.0.3",
-    "vite": "catalog:",
-    "vite-plus": "catalog:",
-    "vitest": "catalog:"
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.0.0-commit.6d65e1780791e2b24b27cf7deb63f57a420e78de",
+    "vite-plus": "0.0.0-commit.6d65e1780791e2b24b27cf7deb63f57a420e78de",
+    "vitest": "4.1.11"
   },
   "peerDependencies": {
     "@wooorm/starry-night": "^3.0.0",
@@ -276,12 +276,14 @@
     }
   },
   "overrides": {
-    "svelte": "$svelte"
+    "svelte": "$svelte",
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.0.0-commit.6d65e1780791e2b24b27cf7deb63f57a420e78de",
+    "vitest": "4.1.11"
   },
   "devEngines": {
     "packageManager": {
-      "name": "pnpm",
-      "version": "12.3.4",
+      "name": "npm",
+      "version": "11.19.0",
       "onFail": "download"
     }
   }
