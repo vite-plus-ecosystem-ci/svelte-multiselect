@@ -1,6 +1,6 @@
 import { NumberRangeInput } from '$lib'
 import { createRawSnippet, mount, tick, unmount, type ComponentProps } from 'svelte'
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, test, vi } from 'vite-plus/test'
 import { doc_query, hover } from './index'
 
 const label_snippet = createRawSnippet(() => ({

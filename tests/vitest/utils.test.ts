@@ -25,7 +25,7 @@ import {
   step_focus,
   values_equal,
 } from '$lib/utils'
-import { afterEach, assert, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, assert, beforeEach, describe, expect, test, vi } from 'vite-plus/test'
 import { doc_query, stub_prop } from './index'
 
 // RFC 4122 v4 pins the version/variant nibbles; the timestamp+counter fallback used when

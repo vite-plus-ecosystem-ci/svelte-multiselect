@@ -2,7 +2,7 @@ import { RangeSlider, type RangeValue } from '$lib'
 import RangeSliderDemo from '../../src/routes/(demos)/(range-slider)/range-slider/+page.md'
 import { snap_range_value, step_range_value, validate_range } from '$lib/range-slider'
 import { flushSync, mount, tick, unmount, type ComponentProps } from 'svelte'
-import { describe, expect, onTestFinished, test, vi } from 'vitest'
+import { describe, expect, onTestFinished, test, vi } from 'vite-plus/test'
 import { doc_query, mock_rect, pointer_event, press_key } from './index'
 
 type Props = ComponentProps<typeof RangeSlider>

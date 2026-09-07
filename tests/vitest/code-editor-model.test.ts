@@ -1,6 +1,6 @@
 import { create_editor_model } from '$lib/code-editor/model'
 import type { EditorModel, TextEdit } from '$lib/code-editor/types'
-import { expect, test } from 'vitest'
+import { expect, test } from 'vite-plus/test'
 
 const type_text = (
   model: EditorModel,

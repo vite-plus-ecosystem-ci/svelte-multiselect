@@ -2,7 +2,15 @@ import Toc from '$lib/Toc.svelte'
 import type { CollapseMode, OpenChangeHandler } from '$lib/types'
 import type { ComponentProps } from 'svelte'
 import { createRawSnippet, mount, tick, unmount } from 'svelte'
-import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import {
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi,
+} from 'vite-plus/test'
 import { doc_query } from './index'
 
 type TocProps = ComponentProps<typeof Toc>

@@ -18,7 +18,7 @@ import {
   source_map,
 } from '$lib/markdown/source-map'
 import { compile, preprocess } from 'svelte/compiler'
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, test, vi } from 'vite-plus/test'
 
 const compile_page = async (
   source: string,

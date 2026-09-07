@@ -6,7 +6,7 @@ import {
   type StatItem,
 } from '$lib/stats'
 import { mount, tick, unmount, type ComponentProps } from 'svelte'
-import { expect, onTestFinished, test, vi } from 'vitest'
+import { expect, onTestFinished, test, vi } from 'vite-plus/test'
 
 test.each([
   [`ready`, `ready`],

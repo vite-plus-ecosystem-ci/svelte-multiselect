@@ -1,5 +1,5 @@
 import { mount, tick, unmount, type Component, type MountOptions } from 'svelte'
-import { afterEach } from 'vitest'
+import { afterEach } from 'vite-plus/test'
 import { SvelteSet } from 'svelte/reactivity'
 
 import { MultiSelect } from '$lib'

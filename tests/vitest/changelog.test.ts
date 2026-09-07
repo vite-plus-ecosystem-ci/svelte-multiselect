@@ -1,5 +1,5 @@
 import { load } from '$root/src/routes/changelog/+page.server'
-import { expect, test } from 'vitest'
+import { expect, test } from 'vite-plus/test'
 
 test(`changelog uses consistent release sections and literal code`, async () => {
   const html = (await load()).changelog.code

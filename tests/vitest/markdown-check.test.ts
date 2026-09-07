@@ -15,7 +15,7 @@ import {
   DiagnosticError,
   type MarkdownOptions,
 } from '$lib/markdown'
-import { describe, expect, onTestFinished, test, vi } from 'vitest'
+import { describe, expect, onTestFinished, test, vi } from 'vite-plus/test'
 
 const filename = resolve(`tests/checked-examples.md`)
 const fence = (language: string, code: string, info = `check`) =>
