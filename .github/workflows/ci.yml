@@ -13,51 +13,48 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v6
+      - uses: voidzero-dev/setup-vp@v1
         with:
           node-version: 24
-
-      - run: npm install --legacy-peer-deps
+          run-install: true
 
       - name: Lint, format, and type check
-        run: npx vp check
+        run: vp check
 
       - name: Svelte type check
-        run: npx svelte-kit sync && npx svelte-check --threshold error
+        run: vp exec svelte-kit sync && vp exec svelte-check --threshold error
 
   unit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v6
+      - uses: voidzero-dev/setup-vp@v1
         with:
           node-version: 24
-
-      - run: npm install --legacy-peer-deps
+          run-install: true
 
       - name: Unit tests with coverage
-        run: npm run test:coverage
+        run: vp run test:coverage
 
       - name: Package smoke test
-        run: npm run test:package
+        run: vp run test:package
 
   e2e:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v6
+      - uses: voidzero-dev/setup-vp@v1
         with:
           node-version: 24
-
-      - run: npm install --legacy-peer-deps
+          run-install: true
 
       - name: Install Playwright
-        run: npx playwright install chromium
+        run: vp exec playwright install chromium
 
       - name: E2E tests
-        run: npx playwright test
+        run: vp exec playwright test
 
   link-check:
     runs-on: ubuntu-latest
@@ -80,12 +77,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v6
+      - uses: voidzero-dev/setup-vp@v1
         with:
           node-version: 24
-
-      - run: npm install --legacy-peer-deps
-      - run: npm run build:site
+          run-install: true
+      - run: vp run build:site
         env:
           BASE_PATH: /${{ github.event.repository.name }}
 
