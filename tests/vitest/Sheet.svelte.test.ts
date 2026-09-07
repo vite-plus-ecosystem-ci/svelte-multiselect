@@ -1,5 +1,5 @@
 import { mount, tick, unmount, type ComponentProps } from 'svelte'
-import { expect, onTestFinished, test } from 'vitest'
+import { expect, onTestFinished, test } from 'vite-plus/test'
 import { doc_query } from './index'
 import TestSheet from './TestSheet.svelte'
 

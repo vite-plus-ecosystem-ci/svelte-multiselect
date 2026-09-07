@@ -8,7 +8,7 @@ import {
   type ComponentProps,
 } from 'svelte'
 import { SvelteMap, SvelteSet } from 'svelte/reactivity'
-import { describe, expect, onTestFinished, test } from 'vitest'
+import { describe, expect, onTestFinished, test } from 'vite-plus/test'
 import { doc_query } from './index'
 import SettingsSectionRerenderHarness from './SettingsSectionRerenderHarness.svelte'
 

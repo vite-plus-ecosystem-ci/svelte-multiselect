@@ -1,5 +1,5 @@
 import { sortable, type SortableOptions } from '$lib/attachments'
-import { describe, expect, it, onTestFinished } from 'vitest'
+import { describe, expect, it, onTestFinished } from 'vite-plus/test'
 import { press_key } from '../index'
 
 describe(`sortable`, () => {

@@ -1,6 +1,6 @@
 import CodeExample from '$lib/CodeExample.svelte'
 import { mount, tick } from 'svelte'
-import { assert, expect, test, vi } from 'vitest'
+import { assert, expect, test, vi } from 'vite-plus/test'
 import { doc_query } from './index'
 
 const [id, src] = [`uniq-id`, `some code`]

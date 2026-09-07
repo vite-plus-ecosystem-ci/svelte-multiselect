@@ -15,7 +15,7 @@ import {
   unmount,
   type ComponentProps,
 } from 'svelte'
-import { expect, test, vi, onTestFinished } from 'vitest'
+import { expect, test, vi, onTestFinished } from 'vite-plus/test'
 import { doc_query } from './index'
 
 const target_for = () => {

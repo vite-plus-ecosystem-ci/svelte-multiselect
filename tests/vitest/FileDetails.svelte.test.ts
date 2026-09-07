@@ -1,7 +1,7 @@
 import { FileDetails } from '$lib'
 import type { ComponentProps } from 'svelte'
 import { flushSync, mount, tick, unmount } from 'svelte'
-import { expect, onTestFinished, test, vi } from 'vitest'
+import { expect, onTestFinished, test, vi } from 'vite-plus/test'
 import { doc_query } from './index'
 import TestSnippetHarness from './TestSnippetHarness.svelte'
 

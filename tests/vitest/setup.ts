@@ -1,4 +1,4 @@
-import { beforeAll, beforeEach, vi } from 'vitest'
+import { beforeAll, beforeEach, vi } from 'vite-plus/test'
 
 const open_popovers = new WeakSet<HTMLElement>()
 const native_matches = Element.prototype.matches

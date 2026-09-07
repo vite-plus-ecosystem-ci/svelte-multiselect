@@ -1,7 +1,7 @@
 import { create_highlighter, default_highlighter } from '$lib/highlight'
 import grammar_typst from '@wooorm/starry-night/source.typst'
 import grammar_latex from '@wooorm/starry-night/text.tex.latex'
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, test, vi } from 'vite-plus/test'
 
 describe(`default_highlighter.highlight_block`, () => {
   test(`shares one default instance with lazy component consumers`, async () => {

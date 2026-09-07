@@ -1,6 +1,6 @@
 import PaneDivider from '$lib/SplitPane.svelte'
 import { flushSync, mount, unmount } from 'svelte'
-import { expect, onTestFinished, test, vi } from 'vitest'
+import { expect, onTestFinished, test, vi } from 'vite-plus/test'
 
 let notify_resize = () => {}
 

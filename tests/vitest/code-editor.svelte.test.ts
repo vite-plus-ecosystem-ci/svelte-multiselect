@@ -3,7 +3,7 @@ import CodeEditor from '$lib/code-editor/CodeEditor.svelte'
 import { create_editor_model } from '$lib/code-editor/model'
 import type { ApplyEditsArgs, EditorBackend, OpenDocArgs } from '$lib/code-editor/types'
 import { mount, tick, type ComponentProps, unmount } from 'svelte'
-import { expect, onTestFinished, test, vi } from 'vitest'
+import { expect, onTestFinished, test, vi } from 'vite-plus/test'
 import { doc_query, press_key } from './index'
 
 const DEMO_TEXT = `const first = 1\nconst second = 2\nconst third = 3`

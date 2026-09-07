@@ -1,5 +1,5 @@
 import { resizable, type ResizableOptions } from '$lib/attachments'
-import { describe, expect, it, onTestFinished, vi } from 'vitest'
+import { describe, expect, it, onTestFinished, vi } from 'vite-plus/test'
 import {
   create_element,
   mock_rect,
