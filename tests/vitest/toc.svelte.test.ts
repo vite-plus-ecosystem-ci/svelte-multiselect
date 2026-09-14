@@ -3,7 +3,7 @@ import Heading from '$lib/Heading.svelte'
 import type { CollapseMode, OpenChangeHandler, TocHeadingData } from '$lib/types'
 import type { ComponentProps } from 'svelte'
 import { createRawSnippet, flushSync, mount, tick, unmount } from 'svelte'
-import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vite-plus/test'
 import { doc_query } from './index'
 
 type TocProps = ComponentProps<typeof Toc>

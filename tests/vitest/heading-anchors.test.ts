@@ -8,7 +8,7 @@ import Heading from '$lib/Heading.svelte'
 import { Check } from '$lib/icons'
 import { createRawSnippet, flushSync, mount, unmount } from 'svelte'
 import { SvelteSet } from 'svelte/reactivity'
-import { describe, expect, it, onTestFinished } from 'vitest'
+import { describe, expect, it, onTestFinished } from 'vite-plus/test'
 import { doc_query, stub_prop } from './index'
 
 describe(`slugify_heading`, () => {

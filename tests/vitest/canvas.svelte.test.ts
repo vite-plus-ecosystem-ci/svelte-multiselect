@@ -1,6 +1,6 @@
 import { create_canvas_surface } from '$lib/canvas.svelte'
 import { flushSync } from 'svelte'
-import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi } from 'vite-plus/test'
 
 const frames = new Map<number, FrameRequestCallback>()
 const observers: {

@@ -6,7 +6,7 @@ import {
   type EditorSearchOptions,
 } from '$lib/code-editor/search'
 import type { EditorModel, TextEdit } from '$lib/code-editor/types'
-import { expect, test, vi } from 'vitest'
+import { expect, test, vi } from 'vite-plus/test'
 
 const type_text = (
   model: EditorModel,

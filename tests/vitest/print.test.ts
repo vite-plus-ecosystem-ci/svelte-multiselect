@@ -1,5 +1,5 @@
 import { format_print_filename, print_page } from '$lib/print'
-import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi } from 'vite-plus/test'
 
 // happy-dom has no window.print and never fires afterprint, so print is spied and the
 // event dispatched by hand.

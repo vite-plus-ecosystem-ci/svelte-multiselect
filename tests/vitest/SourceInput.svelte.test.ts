@@ -1,7 +1,7 @@
 import SourceInput from '$site/SourceInput.svelte'
 import { default_highlighter } from '$lib/highlight'
 import { mount, tick, unmount } from 'svelte'
-import { expect, onTestFinished, test, vi } from 'vitest'
+import { expect, onTestFinished, test, vi } from 'vite-plus/test'
 import { doc_query } from './index'
 
 test(`source input highlights edits without changing the editable text and synchronizes scrolling`, async () => {

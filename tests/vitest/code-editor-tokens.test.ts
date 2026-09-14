@@ -6,7 +6,7 @@ import {
 } from '$lib/code-editor'
 import type { DecodedSpan, SpanList } from '$lib/code-editor'
 import { readFileSync } from 'node:fs'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test } from 'vite-plus/test'
 
 const span = (
   start: number,

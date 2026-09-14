@@ -4,7 +4,7 @@ import * as icons from '$lib/icons'
 import type { ComponentProps } from 'svelte'
 import { createRawSnippet, mount, tick, unmount } from 'svelte'
 import { fromStore, get, writable } from 'svelte/store'
-import { afterEach, assert, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, assert, beforeEach, describe, expect, test, vi } from 'vite-plus/test'
 
 // happy-dom implements no part of the Fullscreen API, so requestFullscreen,
 // exitFullscreen and the fullscreenElement getter are stubbed. The stubs keep one

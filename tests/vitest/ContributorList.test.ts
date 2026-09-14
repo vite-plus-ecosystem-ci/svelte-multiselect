@@ -1,6 +1,6 @@
 import ContributorList from '$lib/ContributorList.svelte'
 import { type ComponentProps, mount, tick } from 'svelte'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vite-plus/test'
 import { doc_query, hover } from './index'
 
 describe(`ContributorList`, () => {

@@ -17,13 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v6
+      - uses: voidzero-dev/setup-vp@v1.20.0
         with:
           node-version: 24
-          cache: npm
-          cache-dependency-path: package.json
+          cache: false
 
-      - run: npm install --legacy-peer-deps
+      - run: vp install
 
       - name: Lint, format, and type check
         run: npx vp check
@@ -36,13 +35,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v6
+      - uses: voidzero-dev/setup-vp@v1.20.0
         with:
           node-version: 24
-          cache: npm
-          cache-dependency-path: package.json
+          cache: false
 
-      - run: npm install --legacy-peer-deps
+      - run: vp install
 
       - name: Unit tests with coverage
         run: npm run test:coverage -- --maxWorkers=100%
@@ -55,13 +53,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v6
+      - uses: voidzero-dev/setup-vp@v1.20.0
         with:
           node-version: 24
-          cache: npm
-          cache-dependency-path: package.json
+          cache: false
 
-      - run: npm install --legacy-peer-deps
+      - run: vp install
 
       - name: Install Playwright
         run: npx playwright install chromium --only-shell
@@ -91,13 +88,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v6
+      - uses: voidzero-dev/setup-vp@v1.20.0
         with:
           node-version: 24
-          cache: npm
-          cache-dependency-path: package.json
+          cache: false
 
-      - run: npm install --legacy-peer-deps
+      - run: vp install
       - run: npm run build:site
         env:
           BASE_PATH: /${{ github.event.repository.name }}
