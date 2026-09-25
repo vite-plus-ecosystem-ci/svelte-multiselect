@@ -1,7 +1,7 @@
 import { Nav } from '$lib'
 import type { NavRoute, NavRouteObject } from '$lib/types'
 import { type ComponentProps, mount, tick } from 'svelte'
-import { afterEach, assert, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, assert, beforeEach, describe, expect, test, vi } from 'vite-plus/test'
 import { doc_query } from './index'
 import TestSnippetHarness from './TestSnippetHarness.svelte'
 

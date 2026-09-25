@@ -6,7 +6,7 @@ import source_links, {
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { describe, expect, it, onTestFinished } from 'vitest'
+import { describe, expect, it, onTestFinished } from 'vite-plus/test'
 import { create_element } from './index'
 
 // Run the plugin's resolve + load hooks and evaluate the emitted module

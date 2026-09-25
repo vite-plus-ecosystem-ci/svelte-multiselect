@@ -1,6 +1,6 @@
 import { create_roving_focus, ROVING_ATTR } from '$lib/roving-focus.svelte'
 import { flushSync } from 'svelte'
-import { expect, onTestFinished, test, vi } from 'vitest'
+import { expect, onTestFinished, test, vi } from 'vite-plus/test'
 
 const setup = (
   svg = false,

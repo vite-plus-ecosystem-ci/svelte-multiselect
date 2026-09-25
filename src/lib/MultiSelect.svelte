@@ -1225,7 +1225,7 @@
             selected.length === 0 ? null : Math.min(prev_highlighted, selected.length - 1)
         }
       }
-    }  // any other keypress while open activates the first matching option
+    } // any other keypress while open activates the first matching option
     else if (open && navigable_options.length > 0 && active_index === null) {
       // no stopPropagation/preventDefault here, normal character input must go through
       const first_enabled_idx = rendered_options.findIndex(

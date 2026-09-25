@@ -2,7 +2,15 @@ import { CommandMenu, PageSearch } from '$lib'
 import type { LoadOptionsParams } from '$lib/types'
 import { MULTI_SELECT_LABELS } from '$lib/labels'
 import { type ComponentProps, flushSync, mount, tick } from 'svelte'
-import { afterEach, beforeEach, describe, expect, expectTypeOf, test, vi } from 'vitest'
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  expectTypeOf,
+  test,
+  vi,
+} from 'vite-plus/test'
 import { doc_query } from './index'
 
 const mock_actions = [

@@ -1,6 +1,6 @@
 import { PrevNext } from '$lib'
 import { mount, type ComponentProps, unmount } from 'svelte'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vite-plus/test'
 import TestSnippetHarness from './TestSnippetHarness.svelte'
 
 const items = [`page1`, `page2`, `page3`, `page4`]

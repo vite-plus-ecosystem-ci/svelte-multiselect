@@ -1,6 +1,6 @@
 import type ColorInput from '$lib/ColorInput.svelte'
 import { mount, tick, unmount, type ComponentProps } from 'svelte'
-import { describe, expect, onTestFinished, test, vi } from 'vitest'
+import { describe, expect, onTestFinished, test, vi } from 'vite-plus/test'
 import ColorInputHarness from './ColorInputHarness.svelte'
 
 const mount_color = (options: ComponentProps<typeof ColorInput> = {}) => {

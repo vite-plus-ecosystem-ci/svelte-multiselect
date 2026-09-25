@@ -3,7 +3,15 @@ import Heading from '$lib/Heading.svelte'
 import type { CollapseMode, OpenChangeHandler, TocHeadingData } from '$lib/types'
 import type { ComponentProps } from 'svelte'
 import { createRawSnippet, flushSync, mount, tick, unmount } from 'svelte'
-import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import {
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi,
+} from 'vite-plus/test'
 import { doc_query } from './index'
 
 type TocProps = ComponentProps<typeof Toc>
@@ -463,12 +471,12 @@ describe(`Toc`, () => {
       expect(item.getAttribute(`role`)).toBe(scrolls ? `link` : null)
       expect(item.getAttribute(`tabindex`)).toBe(scrolls ? `0` : null)
       const native_click = HTMLAnchorElement.prototype.click
-      vi.spyOn(HTMLAnchorElement.prototype, `click`).mockImplementation(
-        function (this: HTMLAnchorElement) {
-          expect(this.closest(`[data-sveltekit-replacestate]`)).toBe(item)
-          native_click.call(this)
-        },
-      )
+      vi.spyOn(HTMLAnchorElement.prototype, `click`).mockImplementation(function (
+        this: HTMLAnchorElement,
+      ) {
+        expect(this.closest(`[data-sveltekit-replacestate]`)).toBe(item)
+        native_click.call(this)
+      })
 
       const event = new MouseEvent(`click`, { bubbles: true, cancelable: true })
       doc_query(selector).dispatchEvent(event)

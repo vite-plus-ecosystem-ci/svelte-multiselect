@@ -7,7 +7,7 @@ import {
   validate_range,
 } from '$lib/range-slider'
 import { flushSync, mount, tick, unmount, type ComponentProps } from 'svelte'
-import { describe, expect, onTestFinished, test, vi } from 'vitest'
+import { describe, expect, onTestFinished, test, vi } from 'vite-plus/test'
 import { doc_query, mock_rect, pointer_event, press_key } from './index'
 
 type Props = ComponentProps<typeof RangeSlider>

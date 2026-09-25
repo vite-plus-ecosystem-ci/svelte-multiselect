@@ -19,7 +19,7 @@ import {
 } from '$lib/markdown/source-map'
 import { compile, preprocess } from 'svelte/compiler'
 import { heading_anchors } from '$lib/heading-anchors'
-import { describe, expect, test, vi, onTestFinished } from 'vitest'
+import { describe, expect, test, vi, onTestFinished } from 'vite-plus/test'
 import { mkdtemp, readFile, writeFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { build } from 'vite'

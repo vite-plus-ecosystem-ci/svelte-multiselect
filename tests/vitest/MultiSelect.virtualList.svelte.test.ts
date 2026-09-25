@@ -1,5 +1,5 @@
 import { tick } from 'svelte'
-import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
+import { afterAll, beforeAll, describe, expect, test, vi } from 'vite-plus/test'
 import type { MultiSelectProps } from '$lib/types'
 import { doc_query } from './index'
 import {

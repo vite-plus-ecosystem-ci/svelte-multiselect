@@ -1,5 +1,5 @@
 import { createRawSnippet, flushSync, tick } from 'svelte'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vite-plus/test'
 import type { Option } from '$lib'
 import type { LoadOptionsParams, LoadOptionsResult, MultiSelectProps } from '$lib/types'
 import { get_label } from '$lib/utils'
