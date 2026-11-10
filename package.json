@@ -281,7 +281,7 @@
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@types/node": "^26.6.6",
     "@typescript/native-preview": "7.0.0-dev.20260707.2",
-    "@vitest/coverage-v8": "5.1.0",
+    "@vitest/coverage-v8": "catalog:",
     "@wooorm/starry-night": "^3.11.0",
     "happy-dom": "21.0.4",
     "mermaid": "^12.3.0",
@@ -290,9 +290,9 @@
     "svelte-check": "^4.7.8",
     "temml": "^0.14.0",
     "typescript": "^6.0.3",
-    "vite": "npm:@voidzero-dev/vite-plus-core@1.5.1",
-    "vite-plus": "1.5.1",
-    "vitest": "5.1.0",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:",
     "vscode-oniguruma": "^2.0.1"
   },
   "peerDependencies": {
